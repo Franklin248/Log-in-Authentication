@@ -4,6 +4,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
+import CapybaraMascot from "@/components/CapybaraMascot";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -11,6 +12,7 @@ const API_URL =
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
@@ -71,6 +73,7 @@ export default function Register() {
       form.reset();
       setShowPassword(false);
       setShowConfirmPassword(false);
+      setPasswordFocused(false);
     } catch (error) {
       setMessage(
         error instanceof Error
@@ -93,11 +96,16 @@ export default function Register() {
         <Image
           src="/images/Logo.gif"
           alt="Logo"
-          width={75}
-          height={55}
+          width={150}
+          height={110}
           unoptimized
           priority
           className="auth-logo"
+          style={{
+            width: "150px",
+            height: "auto",
+            maxWidth: "100%",
+          }}
         />
       </header>
 
@@ -113,9 +121,19 @@ export default function Register() {
                 Join us and create your personal space.
               </p>
 
+              <CapybaraMascot
+                coverEyes={
+                  passwordFocused &&
+                  !showPassword &&
+                  !showConfirmPassword
+                }
+                peek={showPassword || showConfirmPassword}
+              />
+
               <form onSubmit={handleSubmit}>
                 <div className="form-field">
                   <label htmlFor="name">Full name</label>
+
                   <input
                     id="name"
                     name="name"
@@ -129,6 +147,7 @@ export default function Register() {
 
                 <div className="form-field">
                   <label htmlFor="email">Email address</label>
+
                   <input
                     id="email"
                     name="email"
@@ -151,6 +170,8 @@ export default function Register() {
                       placeholder="Create a password"
                       autoComplete="new-password"
                       minLength={8}
+                      onFocus={() => setPasswordFocused(true)}
+                      onBlur={() => setPasswordFocused(false)}
                       required
                     />
 
@@ -177,6 +198,8 @@ export default function Register() {
                       placeholder="Confirm your password"
                       autoComplete="new-password"
                       minLength={8}
+                      onFocus={() => setPasswordFocused(true)}
+                      onBlur={() => setPasswordFocused(false)}
                       required
                     />
 
@@ -241,11 +264,17 @@ export default function Register() {
         <span>© 2026. All rights reserved.</span>
 
         <div>
-          <a href="#" onClick={(event) => event.preventDefault()}>
+          <a
+            href="#"
+            onClick={(event) => event.preventDefault()}
+          >
             Privacy policy
           </a>
 
-          <a href="#" onClick={(event) => event.preventDefault()}>
+          <a
+            href="#"
+            onClick={(event) => event.preventDefault()}
+          >
             Terms
           </a>
         </div>

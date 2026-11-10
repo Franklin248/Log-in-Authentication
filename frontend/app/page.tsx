@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import CapybaraMascot from "@/components/CapybaraMascot";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -13,6 +14,7 @@ export default function Home() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -88,11 +90,16 @@ export default function Home() {
         <Image
           src="/images/Logo.gif"
           alt="Logo"
-          width={75}
-          height={55}
+          width={150}
+          height={110}
           unoptimized
           priority
           className="auth-logo"
+          style={{
+            width: "150px",
+            height: "auto",
+            maxWidth: "100%",
+          }}
         />
       </header>
 
@@ -107,6 +114,11 @@ export default function Home() {
               <p className="login-description">
                 Sign in to continue to your account.
               </p>
+
+              <CapybaraMascot
+                coverEyes={passwordFocused && !showPassword}
+                peek={showPassword}
+              />
 
               <form onSubmit={handleSubmit}>
                 <div className="form-field">
@@ -132,6 +144,8 @@ export default function Home() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       autoComplete="current-password"
+                      onFocus={() => setPasswordFocused(true)}
+                      onBlur={() => setPasswordFocused(false)}
                       required
                     />
 

@@ -164,35 +164,51 @@ export default function Dashboard() {
       <header
         className="auth-header"
         style={{
+          position: "absolute",
+          top: "28px",
+          left: "50%",
+          transform: "translateX(-50%)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          width: "100%",
+          width: "min(1160px, 91%)",
+          boxSizing: "border-box",
+          padding: 0,
+          zIndex: 10,
         }}
       >
         <Image
           src="/images/Logo.gif"
           alt="Logo"
-          width={75}
-          height={55}
+          width={150}
+          height={110}
           unoptimized
           priority
           className="auth-logo"
+          style={{
+            width: "150px",
+            height: "auto",
+            maxWidth: "100%",
+          }}
         />
 
         <button
           onClick={handleLogout}
           disabled={loggingOut}
           style={{
-            padding: "11px 22px",
-            border: "1px solid rgba(238, 229, 216, 0.25)",
+            padding: "14px 28px",
+            minWidth: "125px",
+            border: "1px solid rgba(238, 229, 216, 0.3)",
             borderRadius: "30px",
-            background: "rgba(255,255,255,0.07)",
+            background: "rgba(255,255,255,0.09)",
             color: "#eee5d8",
             cursor: "pointer",
             backdropFilter: "blur(15px)",
-            fontSize: "12px",
-            letterSpacing: "1px",
+            fontSize: "13px",
+            fontWeight: 600,
+            letterSpacing: "1.2px",
+            whiteSpace: "nowrap",
+            flexShrink: 0,
           }}
         >
           {loggingOut ? "Signing out..." : "LOG OUT ↗"}

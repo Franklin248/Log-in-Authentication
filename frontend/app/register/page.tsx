@@ -7,7 +7,8 @@ import { useState, type FormEvent } from "react";
 import CapybaraMascot from "@/components/CapybaraMascot";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://log-in-authentication.onrender.com";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);

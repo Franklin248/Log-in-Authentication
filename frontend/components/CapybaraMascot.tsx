@@ -1,15 +1,35 @@
 
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
+export type CapybaraField =
+  | "login-username"
+  | "login-email"
+  | "login-password"
+  | "register-name"
+  | "register-username"
+  | "register-email"
+  | "register-password"
+  | "register-confirm";
+
+type Mood = "classic" | "sleepy" | "happy" | "curious" | "error";
+
 type CapybaraMascotProps = {
   coverEyes?: boolean;
   peek?: boolean;
-  mood?: "classic" | "sleepy" | "happy" | "curious" | "error";
+  mood?: Mood;
+  field?: CapybaraField;
+  typingVersion?: number;
 };
 
 type CharacterProps = {
@@ -18,7 +38,131 @@ type CharacterProps = {
   mood: NonNullable<CapybaraMascotProps["mood"]>;
 };
 
-function Character({ coverEyes, peek, mood }: CharacterProps) {
+const dialogues: Record<CapybaraField, string[]> = {
+  "login-username": [
+    "Hey! What's your username? 😊",
+    "Let's find your account!",
+    "Username time! Take it easy.",
+    "I hope you remember your username!",
+    "Type your username right here!",
+    "One username coming right up!",
+    "Your account is waiting for you!",
+    "No rush, I'm enjoying the moment.",
+    "Let's get you signed in!",
+    "Looking good! Keep typing! 🧡",
+  ],
+
+  "login-email": [
+    "An email? Optional, just like me! 🍊",
+    "You can leave this one empty!",
+    "Checking your email? I'm just chilling.",
+    "No email? That's perfectly fine!",
+    "An extra detail, if you want!",
+    "Your email can sit this one out.",
+    "Optional means optional!",
+    "Just making sure you're comfortable.",
+    "You decide if you want to share it!",
+    "I'm not judging your inbox! 😆",
+  ],
+
+  "login-password": [
+    "Shhh! That's your little secret! 🤫",
+    "I'll look away, promise!",
+    "Password protection mode activated!",
+    "No peeking... well, maybe a little!",
+    "Your secret is safe with me!",
+    "Careful! Someone might be watching!",
+    "I'll cover my eyes for you!",
+    "A secret code? Very mysterious!",
+    "Take your time. I'll face the other way.",
+    "Privacy is important, even for capybaras!",
+  ],
+
+  "register-name": [
+    "What should I call you? 😊",
+    "Let's put a name to that account!",
+    "A new friend! What's your name?",
+    "Nice to meet you in advance!",
+    "Your name deserves a cozy welcome!",
+    "Every capy-club member has a name!",
+    "Let's get acquainted!",
+    "I'll try my best to remember!",
+    "A name makes everything personal.",
+    "Welcome! Let's start with your name!",
+  ],
+
+  "register-username": [
+    "Time to pick your username!",
+    "Make it uniquely yours!",
+    "Your digital identity starts here!",
+    "Choose something you'll remember!",
+    "A username fit for the capy-club!",
+    "Let's find your perfect username!",
+    "Keep it simple and memorable!",
+    "Your future login starts with this!",
+    "I wonder what username you'll choose!",
+    "Looking for a cool username? Take your time!",
+  ],
+
+  "register-email": [
+    "Email address? Only if you want! 🍊",
+    "This field is optional, remember!",
+    "No email? No problem at all!",
+    "Your inbox can take a little break.",
+    "You can add an email if you'd like!",
+    "An optional detail for your account!",
+    "I'm just hanging out while you decide.",
+    "No pressure. This one's up to you!",
+    "Your email is welcome, but not required!",
+    "Even without an email, we can be friends!",
+  ],
+
+  "register-password": [
+    "A secret code for your new account!",
+    "I'll close my eyes. Pinky promise!",
+    "Make it strong and keep it private!",
+    "Eight characters or more! You got this!",
+    "Your password is safe with me!",
+    "Shhh! Secret password in progress!",
+    "Don't let anyone peek!",
+    "A strong password is a happy password!",
+    "I'll guard your secret!",
+    "Take your time. Security first! 🔐",
+  ],
+
+  "register-confirm": [
+    "Let's make sure those passwords match!",
+    "One more time, just to be sure!",
+    "Double-checking your secret code!",
+    "Consistency is key!",
+    "Same password, same happy capybara!",
+    "Let's see if they match!",
+    "Almost there! Confirm that password!",
+    "No pressure. Just checking!",
+    "Two passwords should become one!",
+    "A little confirmation before we celebrate!",
+  ],
+};
+
+function getRandomDialogue(
+  field: CapybaraField,
+  currentMessage?: string
+) {
+  const messages = dialogues[field];
+  const available = messages.filter(
+    (message) => message !== currentMessage
+  );
+
+  const choices = available.length > 0 ? available : messages;
+
+  return choices[Math.floor(Math.random() * choices.length)];
+}
+
+function Character({
+  coverEyes,
+  peek,
+  mood,
+}: CharacterProps) {
   const { scene } = useGLTF("/models/Capybara.glb");
 
   const model = useMemo(() => {
@@ -115,8 +259,10 @@ function Character({ coverEyes, peek, mood }: CharacterProps) {
 
     root.current.position.y = THREE.MathUtils.damp(
       root.current.position.y,
-      -1.1 + Math.sin(time * 1.8) * 0.018 +
-        happyBounce + sleepingBob,
+      -1.1 +
+        Math.sin(time * 1.8) * 0.018 +
+        happyBounce +
+        sleepingBob,
       5,
       delta
     );
@@ -156,18 +302,33 @@ export default function CapybaraMascot({
   coverEyes = false,
   peek = false,
   mood = "classic",
+  field = "login-username",
+  typingVersion = 0,
 }: CapybaraMascotProps) {
+    const [message, setMessage] = useState(
+    "Hello there! Welcome to the Capybara Club! 🧡"
+);
+  useEffect(() => {
+    setMessage(getRandomDialogue(field));
+  }, [field]);
+
+  useEffect(() => {
+    if (typingVersion === 0) return;
+
+    const timeout = window.setTimeout(() => {
+      setMessage((current) =>
+        getRandomDialogue(field, current)
+      );
+    }, 900);
+
+    return () => window.clearTimeout(timeout);
+  }, [field, typingVersion]);
+
   const caption = coverEyes && !peek
     ? "No peeking! 🙈"
     : peek
       ? "Just a little peek! 👀"
-      : mood === "happy"
-        ? "Yay! 🧡"
-        : mood === "error"
-          ? "Oops! Try again!"
-          : mood === "sleepy"
-            ? "Zzz..."
-            : "Hello there! 🧡";
+      : message;
 
   return (
     <div

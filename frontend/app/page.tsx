@@ -1,11 +1,11 @@
-
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import CapybaraMascot from "@/components/CapybaraMascot";
+import CapybaraMascot, {
+  type CapybaraField,
+} from "@/components/CapybaraMascot";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
@@ -18,6 +18,10 @@ export default function Home() {
   const [rememberMe, setRememberMe] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [activeField, setActiveField] =
+    useState<CapybaraField>("login-username");
+  const [typingVersion, setTypingVersion] = useState(0);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -119,6 +123,8 @@ export default function Home() {
               <CapybaraMascot
                 coverEyes={passwordFocused && !showPassword}
                 peek={showPassword}
+                field={activeField}
+                typingVersion={typingVersion}
               />
 
               <form onSubmit={handleSubmit}>
@@ -134,6 +140,12 @@ export default function Home() {
                     minLength={3}
                     maxLength={50}
                     required
+                    onFocus={() =>
+                      setActiveField("login-username")
+                    }
+                    onChange={() =>
+                      setTypingVersion((version) => version + 1)
+                    }
                   />
                 </div>
 
@@ -149,6 +161,12 @@ export default function Home() {
                     placeholder="you@example.com"
                     autoComplete="email"
                     maxLength={150}
+                    onFocus={() =>
+                      setActiveField("login-email")
+                    }
+                    onChange={() =>
+                      setTypingVersion((version) => version + 1)
+                    }
                   />
                 </div>
 
@@ -162,15 +180,23 @@ export default function Home() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
                       autoComplete="current-password"
-                      onFocus={() => setPasswordFocused(true)}
+                      onFocus={() => {
+                        setActiveField("login-password");
+                        setPasswordFocused(true);
+                      }}
                       onBlur={() => setPasswordFocused(false)}
+                      onChange={() =>
+                        setTypingVersion((version) => version + 1)
+                      }
                       required
                     />
 
                     <button
                       type="button"
                       className="show-password"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() =>
+                        setShowPassword((previous) => !previous)
+                      }
                     >
                       {showPassword ? "Hide" : "Show"}
                     </button>
@@ -190,7 +216,7 @@ export default function Home() {
                     <span>Remember me</span>
                   </label>
 
-                  <Link href="/Forgot-password">
+                  <Link href="/forgot-password">
                     Forgot password?
                   </Link>
                 </div>

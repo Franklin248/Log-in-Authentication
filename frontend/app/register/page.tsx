@@ -1,12 +1,14 @@
-
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import CapybaraMascot from "@/components/CapybaraMascot";
+import CapybaraMascot, {
+  type CapybaraField,
+} from "@/components/CapybaraMascot";
 
-const API_URL ="http://localhost:3001";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://log-in-authentication.onrender.com";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +17,10 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [activeField, setActiveField] =
+    useState<CapybaraField>("register-name");
+  const [typingVersion, setTypingVersion] = useState(0);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -72,9 +78,13 @@ export default function Register() {
       setMessage("Account created successfully! You can now sign in.");
 
       form.reset();
+
       setShowPassword(false);
       setShowConfirmPassword(false);
       setPasswordFocused(false);
+
+      setActiveField("register-name");
+      setTypingVersion((version) => version + 1);
     } catch (error) {
       setMessage(
         error instanceof Error
@@ -94,19 +104,19 @@ export default function Register() {
       <div className="geometry geometry-two" />
 
       <header className="auth-header register-header">
-   <img
-  src="/images/CapyLogo.gif"
-  alt="Capybara Logo"
-  width={150}
-  height={110}
-  className="auth-logo"
-  style={{
-    width: "150px",
-    height: "auto",
-    maxWidth: "100%",
-    objectFit: "contain",
-  }}
-/>
+        <img
+          src="/images/CapyLogo.gif"
+          alt="Capybara Logo"
+          width={150}
+          height={110}
+          className="auth-logo"
+          style={{
+            width: "150px",
+            height: "auto",
+            maxWidth: "100%",
+            objectFit: "contain",
+          }}
+        />
       </header>
 
       <section className="auth-stage">
@@ -128,6 +138,8 @@ export default function Register() {
                   !showConfirmPassword
                 }
                 peek={showPassword || showConfirmPassword}
+                field={activeField}
+                typingVersion={typingVersion}
               />
 
               <form onSubmit={handleSubmit}>
@@ -142,6 +154,12 @@ export default function Register() {
                     autoComplete="name"
                     maxLength={100}
                     required
+                    onFocus={() =>
+                      setActiveField("register-name")
+                    }
+                    onChange={() =>
+                      setTypingVersion((version) => version + 1)
+                    }
                   />
                 </div>
 
@@ -157,6 +175,12 @@ export default function Register() {
                     minLength={3}
                     maxLength={50}
                     required
+                    onFocus={() =>
+                      setActiveField("register-username")
+                    }
+                    onChange={() =>
+                      setTypingVersion((version) => version + 1)
+                    }
                   />
                 </div>
 
@@ -172,6 +196,12 @@ export default function Register() {
                     placeholder="you@example.com"
                     autoComplete="email"
                     maxLength={150}
+                    onFocus={() =>
+                      setActiveField("register-email")
+                    }
+                    onChange={() =>
+                      setTypingVersion((version) => version + 1)
+                    }
                   />
                 </div>
 
@@ -186,15 +216,23 @@ export default function Register() {
                       placeholder="Create a password"
                       autoComplete="new-password"
                       minLength={8}
-                      onFocus={() => setPasswordFocused(true)}
+                      onFocus={() => {
+                        setActiveField("register-password");
+                        setPasswordFocused(true);
+                      }}
                       onBlur={() => setPasswordFocused(false)}
+                      onChange={() =>
+                        setTypingVersion((version) => version + 1)
+                      }
                       required
                     />
 
                     <button
                       type="button"
                       className="show-password"
-                      onClick={() => setShowPassword(!showPassword)}
+                      onClick={() =>
+                        setShowPassword((previous) => !previous)
+                      }
                     >
                       {showPassword ? "Hide" : "Show"}
                     </button>
@@ -214,8 +252,14 @@ export default function Register() {
                       placeholder="Confirm your password"
                       autoComplete="new-password"
                       minLength={8}
-                      onFocus={() => setPasswordFocused(true)}
+                      onFocus={() => {
+                        setActiveField("register-confirm");
+                        setPasswordFocused(true);
+                      }}
                       onBlur={() => setPasswordFocused(false)}
+                      onChange={() =>
+                        setTypingVersion((version) => version + 1)
+                      }
                       required
                     />
 
@@ -223,7 +267,7 @@ export default function Register() {
                       type="button"
                       className="show-password"
                       onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
+                        setShowConfirmPassword((previous) => !previous)
                       }
                     >
                       {showConfirmPassword ? "Hide" : "Show"}
@@ -267,8 +311,8 @@ export default function Register() {
               <h2>Join the Hap-pybara Family!</h2>
 
               <p>
-                 No need to rush. Create your account, get comfy, and enjoy the
-    capybara life!
+                No need to rush. Create your account, get comfy, and enjoy
+                the capybara life!
               </p>
             </div>
 

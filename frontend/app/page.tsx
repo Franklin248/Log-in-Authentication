@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -9,6 +10,8 @@ import CapybaraMascot, {
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+
+const PORTFOLIO_URL = "https://my-project-pi-five-33.vercel.app/";
 
 export default function Home() {
   const router = useRouter();
@@ -244,13 +247,45 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="welcome-side">
-            <div className="welcome-content">
+          <div className="welcome-side login-welcome-side">
+            <div className="welcome-content login-welcome-content">
               <span className="eyebrow">HAP-PYBARA LOGIN!!</span>
 
-              <h2>OH, CAPY-DAY!</h2>
+              <h2>WELCOME BACK, CAPY!</h2>
 
               <p>Hop in, your account is waiting!</p>
+            </div>
+
+            <div className="developer-credit">
+              <div className="developer-avatar">
+                <img
+                  src="/images/Franklin.jpg"
+                  alt="John Franklin R. Saludes"
+                />
+              </div>
+
+              <div className="developer-details">
+                <span className="developer-eyebrow">
+                  MEET THE DEVELOPER
+                </span>
+
+                <h3>John Franklin R. Saludes</h3>
+
+                <p>
+                  Discover more about my work and projects
+                  through my personal portfolio.
+                </p>
+
+                <a
+                  href={PORTFOLIO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="developer-link"
+                >
+                  Explore My Portfolio
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
             </div>
 
             <span className="welcome-index">

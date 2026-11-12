@@ -4,6 +4,7 @@ import {
   IsString,
   MinLength,
   MaxLength,
+  ValidateIf,
 } from 'class-validator';
 
 export class RegisterDto {
@@ -11,9 +12,18 @@ export class RegisterDto {
   @MaxLength(100)
   name: string;
 
+  @IsString()
+  @MinLength(3)
+  @MaxLength(50)
+  username: string;
+
+  @ValidateIf(
+    (_, value) =>
+      typeof value === 'string' && value.trim() !== '',
+  )
   @IsEmail()
   @MaxLength(150)
-  email: string;
+  email?: string | null;
 
   @IsString()
   @MinLength(8)

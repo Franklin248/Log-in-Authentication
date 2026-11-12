@@ -177,20 +177,19 @@ export default function Dashboard() {
           zIndex: 10,
         }}
       >
-        <Image
-          src="/images/Logo.gif"
-          alt="Logo"
-          width={150}
-          height={110}
-          unoptimized
-          priority
-          className="auth-logo"
-          style={{
-            width: "150px",
-            height: "auto",
-            maxWidth: "100%",
-          }}
-        />
+     <img
+  src="/images/CapyLogo.gif"
+  alt="Capybara Logo"
+  width={150}
+  height={110}
+  className="auth-logo"
+  style={{
+    width: "150px",
+    height: "auto",
+    maxWidth: "100%",
+    objectFit: "contain",
+  }}
+/>
 
         <button
           onClick={handleLogout}
@@ -315,13 +314,12 @@ export default function Dashboard() {
 
           <div className="welcome-side">
             <div className="welcome-content">
-              <span className="eyebrow">AUTHENTICATED SESSION</span>
+              <span className="eyebrow">CAPY-VERIFIED SESSION</span>
 
-              <h2>You're right where you belong.</h2>
+              <h2>You're right where you capy-should be.</h2>
 
               <p>
-                Your account is connected and your session has been verified
-                by our server.
+                Your account is all settled in, and your session has been successfully capy-tured. Welcome back!
               </p>
             </div>
 

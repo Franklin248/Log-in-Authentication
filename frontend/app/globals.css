@@ -41,7 +41,7 @@ body {
 body {
   background: #241a14;
   color: #f3ede3;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 button,
@@ -54,6 +54,7 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+
 .auth-page {
   position: relative;
   display: flex;
@@ -64,6 +65,7 @@ a {
   overflow: hidden;
   isolation: isolate;
   padding: 22px 4.4%;
+
   background:
     radial-gradient(
       ellipse at 78% 40%,
@@ -75,8 +77,14 @@ a {
       rgba(91, 65, 44, 0.22),
       transparent 40%
     ),
-    #241a14;
+    url("/images/Capy%20Background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+
 
 .auth-header,
 .auth-footer,
@@ -964,6 +972,205 @@ a {
   }
 }
 
+.dashboard-page {
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
+  min-height: 100svh;
+  justify-content: flex-start;
+}
+
+.dashboard-header {
+  position: absolute !important;
+  top: 22px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: min(1160px, 91.2%) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+  padding: 0 !important;
+  z-index: 10 !important;
+}
+
+.dashboard-header .auth-logo {
+  display: block;
+  width: clamp(85px, 12vw, 150px) !important;
+  height: auto !important;
+  max-width: 40%;
+  flex: 0 1 auto;
+  object-fit: contain;
+}
+
+.dashboard-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 125px;
+  max-width: 45%;
+  padding: 13px 22px;
+  border: 1px solid rgba(238, 229, 216, 0.3);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.09);
+  color: #eee5d8;
+  cursor: pointer;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  font-size: clamp(10px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  white-space: nowrap;
+  text-align: center;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.dashboard-logout:hover {
+  transform: translateY(-2px);
+  border-color: rgba(238, 229, 216, 0.55);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dashboard-logout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard-stage {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  width: min(1160px, 91.2%) !important;
+  margin: 130px auto 55px !important;
+  flex-shrink: 0;
+}
+
+.dashboard-stage .auth-panel {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+.dashboard-footer {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 15px;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+}
+
+.dashboard-user {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 28px;
+}
+
+.dashboard-info span {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+.dashboard-info p {
+  margin-top: 7px;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 850px) {
+  .dashboard-header {
+    top: 18px !important;
+    width: 92% !important;
+    gap: 14px !important;
+  }
+
+  .dashboard-header .auth-logo {
+    width: clamp(85px, 13vw, 120px) !important;
+  }
+
+  .dashboard-stage {
+    width: 92% !important;
+    margin-top: 115px !important;
+  }
+
+  .dashboard-stage .auth-panel {
+    grid-template-columns: 1fr !important;
+  }
+
+  .dashboard-stage .login-side,
+  .dashboard-stage .welcome-side {
+    padding: 45px 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  .dashboard-page {
+    padding: 15px 18px 20px;
+  }
+
+  .dashboard-header {
+    top: 14px !important;
+    left: 50% !important;
+    width: calc(100% - 36px) !important;
+    gap: 10px !important;
+  }
+
+  .dashboard-header .auth-logo {
+    width: 90px !important;
+    max-width: 40%;
+    height: auto !important;
+  }
+
+  .dashboard-logout {
+    min-width: 0;
+    max-width: 48%;
+    padding: 11px 15px;
+    font-size: 10px;
+    letter-spacing: 0.7px;
+  }
+
+  .dashboard-stage {
+    width: 100% !important;
+    margin: 100px auto 30px !important;
+  }
+
+  .dashboard-stage .auth-panel {
+    grid-template-columns: 1fr !important;
+    min-height: auto;
+  }
+
+  .dashboard-stage .login-side,
+  .dashboard-stage .welcome-side {
+    padding: 35px 24px;
+  }
+
+  .dashboard-stage .welcome-side {
+    min-height: 190px;
+  }
+
+  .dashboard-stage .welcome-content h2 {
+    font-size: 48px;
+  }
+
+  .dashboard-footer {
+    padding-bottom: 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -973,4 +1180,53 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+.register-header {
+  left: auto !important;
+  right: 4.4% !important;
+}
+
+.register-header .auth-logo {
+  width: 110px !important;
+  height: auto !important;
+  max-width: 100%;
+}
+
+@media (max-width: 520px) {
+  .register-header {
+    top: 12px !important;
+    right: 18px !important;
+    left: auto !important;
+  }
+
+  .register-header .auth-logo {
+    width: 75px !important;
+  }
+}
+
+.dashboard-stage .welcome-side h1 {
+  margin: 0;
+  color: #f3ede3;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 4vw, 47px);
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  line-height: 1.2;
+}
+
+.dashboard-stage .welcome-side p {
+  margin-top: 11px;
+  color: #c5b6a4;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.dashboard-stage .login-content h2 {
+  margin: 0;
+  color: #f3ede3;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.8px;
 }

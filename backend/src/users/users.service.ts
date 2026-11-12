@@ -17,14 +17,22 @@ export class UsersService {
     });
   }
 
+  findByUsername(username: string): Promise<User | null> {
+    return this.userRepository.findOne({
+      where: { username },
+    });
+  }
+
   createUser(
     name: string,
-    email: string,
+    username: string,
+    email: string | null,
     password: string,
   ): Promise<User> {
     const user = this.userRepository.create({
       name,
-      email,
+      username,
+      email: email || null,
       password,
     });
 

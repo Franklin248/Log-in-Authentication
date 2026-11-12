@@ -8,8 +8,7 @@ import { useState, type FormEvent } from "react";
 import CapybaraMascot from "@/components/CapybaraMascot";
 
 const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://log-in-authentication.onrender.com";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
 export default function Home() {
   const router = useRouter();
@@ -26,7 +25,7 @@ export default function Home() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    const email = (formData.get("email") as string).trim();
+    const username = (formData.get("username") as string).trim();
     const password = formData.get("password") as string;
 
     setMessage("");
@@ -39,7 +38,7 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          username,
           password,
         }),
       });
@@ -50,7 +49,7 @@ export default function Home() {
         throw new Error(
           Array.isArray(data.message)
             ? data.message.join(", ")
-            : data.message || "Invalid email or password."
+            : data.message || "Invalid username or password."
         );
       }
 
@@ -88,18 +87,17 @@ export default function Home() {
       <div className="geometry geometry-two" />
 
       <header className="auth-header">
-        <Image
-          src="/images/Logo.gif"
-          alt="Logo"
+        <img
+          src="/images/CapyLogo.gif"
+          alt="Capybara Logo"
           width={150}
           height={110}
-          unoptimized
-          priority
           className="auth-logo"
           style={{
             width: "150px",
             height: "auto",
             maxWidth: "100%",
+            objectFit: "contain",
           }}
         />
       </header>
@@ -108,9 +106,11 @@ export default function Home() {
         <div className="auth-panel">
           <div className="login-side">
             <div className="login-content">
-              <span className="eyebrow">YOUR PERSONAL SPACE</span>
+              <span className="eyebrow">
+                Capybara Login Authenticator
+              </span>
 
-              <h1>Welcome back.</h1>
+              <h1>Welcome Back!</h1>
 
               <p className="login-description">
                 Sign in to continue to your account.
@@ -123,7 +123,24 @@ export default function Home() {
 
               <form onSubmit={handleSubmit}>
                 <div className="form-field">
-                  <label htmlFor="email">Email address</label>
+                  <label htmlFor="username">Username</label>
+
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="Enter your username"
+                    autoComplete="username"
+                    minLength={3}
+                    maxLength={50}
+                    required
+                  />
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="email">
+                    Email address <span>(Optional)</span>
+                  </label>
 
                   <input
                     id="email"
@@ -131,7 +148,7 @@ export default function Home() {
                     type="email"
                     placeholder="you@example.com"
                     autoComplete="email"
-                    required
+                    maxLength={150}
                   />
                 </div>
 
@@ -173,12 +190,9 @@ export default function Home() {
                     <span>Remember me</span>
                   </label>
 
-                  <a
-                    href="#"
-                    onClick={(event) => event.preventDefault()}
-                  >
+                  <Link href="/Forgot-password">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
 
                 <button
@@ -206,14 +220,16 @@ export default function Home() {
 
           <div className="welcome-side">
             <div className="welcome-content">
-              <span className="eyebrow">A FAMILIAR PLACE</span>
+              <span className="eyebrow">HAP-PYBARA LOGIN!!</span>
 
-              <h2>Settle in.</h2>
+              <h2>OH, CAPY-DAY!</h2>
 
-              <p>Your account is right where you left it.</p>
+              <p>Hop in, your account is waiting!</p>
             </div>
 
-            <span className="welcome-index">01 / WELCOME</span>
+            <span className="welcome-index">
+              01 / WELCOME
+            </span>
           </div>
         </div>
       </section>

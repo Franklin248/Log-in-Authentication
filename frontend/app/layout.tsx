@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Welcome Back",
-  description: "Sign in to continue to your account.",
+  title: "Capybara Login Authenticator",
+  description: "A simple and secure Capybara Login Authenticator.",
 };
 
 export default function RootLayout({

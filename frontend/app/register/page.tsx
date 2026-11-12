@@ -6,9 +6,7 @@ import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import CapybaraMascot from "@/components/CapybaraMascot";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ||
-  "https://log-in-authentication.onrender.com";
+const API_URL ="http://localhost:3001";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +27,7 @@ export default function Register() {
     const formData = new FormData(form);
 
     const name = (formData.get("name") as string).trim();
+    const username = (formData.get("username") as string).trim();
     const email = (formData.get("email") as string).trim();
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
@@ -53,7 +52,8 @@ export default function Register() {
         },
         body: JSON.stringify({
           name,
-          email,
+          username,
+          email: email || null,
           password,
         }),
       });
@@ -93,21 +93,20 @@ export default function Register() {
       <div className="geometry geometry-one" />
       <div className="geometry geometry-two" />
 
-      <header className="auth-header">
-        <Image
-          src="/images/Logo.gif"
-          alt="Logo"
-          width={150}
-          height={110}
-          unoptimized
-          priority
-          className="auth-logo"
-          style={{
-            width: "150px",
-            height: "auto",
-            maxWidth: "100%",
-          }}
-        />
+      <header className="auth-header register-header">
+   <img
+  src="/images/CapyLogo.gif"
+  alt="Capybara Logo"
+  width={150}
+  height={110}
+  className="auth-logo"
+  style={{
+    width: "150px",
+    height: "auto",
+    maxWidth: "100%",
+    objectFit: "contain",
+  }}
+/>
       </header>
 
       <section className="auth-stage">
@@ -147,7 +146,24 @@ export default function Register() {
                 </div>
 
                 <div className="form-field">
-                  <label htmlFor="email">Email address</label>
+                  <label htmlFor="username">Username</label>
+
+                  <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    placeholder="Choose a username"
+                    autoComplete="username"
+                    minLength={3}
+                    maxLength={50}
+                    required
+                  />
+                </div>
+
+                <div className="form-field">
+                  <label htmlFor="email">
+                    Email address <span>(Optional)</span>
+                  </label>
 
                   <input
                     id="email"
@@ -156,7 +172,6 @@ export default function Register() {
                     placeholder="you@example.com"
                     autoComplete="email"
                     maxLength={150}
-                    required
                   />
                 </div>
 
@@ -247,12 +262,13 @@ export default function Register() {
 
           <div className="welcome-side">
             <div className="welcome-content">
-              <span className="eyebrow">A NEW BEGINNING</span>
+              <span className="eyebrow">WELCOME TO THE CAPY-CLUB!</span>
 
-              <h2>Make yourself at home.</h2>
+              <h2>Join the Hap-pybara Family!</h2>
 
               <p>
-                A little space that's yours, whenever you need it.
+                 No need to rush. Create your account, get comfy, and enjoy the
+    capybara life!
               </p>
             </div>
 

@@ -117,7 +117,7 @@ export default function Home() {
                 Capybara Login Authenticator
               </span>
 
-              <h1>Welcome Back!</h1>
+              <h1>Hello! Im Capy!</h1>
 
               <p className="login-description">
                 Sign in to continue to your account.
@@ -251,7 +251,7 @@ export default function Home() {
             <div className="welcome-content login-welcome-content">
               <span className="eyebrow">HAP-PYBARA LOGIN!!</span>
 
-              <h2>WELCOME BACK, CAPY!</h2>
+              <h2>WELCOME!</h2>
 
               <p>Hop in, your account is waiting!</p>
             </div>

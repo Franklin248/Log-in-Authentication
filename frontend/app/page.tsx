@@ -11,7 +11,7 @@ import CapybaraMascot, {
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
 
-const PORTFOLIO_URL = "https://my-project-pi-five-33.vercel.app/";
+const PORTFOLIO_URL = "https://my-project-8l28.vercel.app/";
 
 export default function Home() {
   const router = useRouter();

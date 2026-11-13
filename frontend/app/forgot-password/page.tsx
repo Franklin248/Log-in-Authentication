@@ -7,7 +7,7 @@ export default function ForgotPasswordPage() {
     <main className="flex min-h-screen items-center justify-center bg-[#241a14] px-6 py-12">
       <div className="w-full max-w-xl rounded-3xl border border-[#8c674b]/30 bg-[#35271e]/90 px-8 py-12 text-center shadow-2xl sm:px-12">
 
-        {/* Work in Progress Image */}
+        
         <div className="mb-8 flex justify-center">
           <Image
             src="/images/WorkOnProgress.png"
@@ -19,7 +19,7 @@ export default function ForgotPasswordPage() {
           />
         </div>
 
-        {/* Heading */}
+        
         <span className="text-xs font-semibold uppercase tracking-[0.3em] text-[#d5a779]">
           UNDER CONSTRUCTION
         </span>
@@ -28,7 +28,7 @@ export default function ForgotPasswordPage() {
           Hold Your Capybaras!
         </h1>
 
-        {/* Message */}
+        
         <p className="mx-auto mt-5 max-w-md text-base leading-7 text-[#cbb8a5]">
           Looks like this little corner is still taking a capy-nap!
           Our capybara crew is working hard behind the scenes to
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
           🧡
         </p>
 
-        {/* Return Button */}
+        
         <Link
           href="/"
           className="mt-9 inline-flex items-center justify-center rounded-xl bg-[#c58a61] px-8 py-3 font-semibold text-[#241a14] transition duration-300 hover:-translate-y-1 hover:bg-[#d9a47d] hover:shadow-lg"
@@ -49,7 +49,7 @@ export default function ForgotPasswordPage() {
           Back to Login
         </Link>
 
-        {/* Footer */}
+        
         <p className="mt-10 text-xs tracking-wide text-[#8f7966]">
           Capybara Login Authenticator · Take it easy, take it capy.
         </p>
